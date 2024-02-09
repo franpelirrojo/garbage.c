@@ -1,4 +1,30 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+
+int dosCristales(bool arr[], int length){ //O(sqrt(N))
+    if (length >= 0){ // no puede haber longitud negativa ni sqrt lo soporta
+        int lengthStep = sqrt(length);
+        int i = lengthStep; //Comenzamos con un primer salto
+        for (; i < length; i += lengthStep){
+            if (arr[i]){
+                break;
+            }
+        }
+
+        i -= lengthStep; //retrocedemos el salto y evaluamos
+                         //la distancia de: raiz de N
+
+        for (int j = 0; j < length && i < length;j++, i++){
+            if (arr[i]){ //j es una variable de ayuda que abstrae
+                return i;//la distancia de raiz de N mientras la
+                         //i nos da el indice real.
+            }
+        }
+    }
+
+    return -1;
+}
 
 int busquedaBinaria(int arr[], int length, int target){ //O(logN)
     int min = 0;
@@ -40,8 +66,11 @@ int busquedaLineal(int arr[], int length, int target){ //O(N)
 int main(void){
     int a[] = {7,3,5};
     int b[] = {0,1,2,3,4,5,6,7,8};
+    bool boo[] = {false,false,true,true,true,true,true};
+
     printf("indice %d\n",busquedaLineal(a, 3, 5));
     printf("el indice en la busqueda binaria es %d\n",
            busquedaBinaria(b, (sizeof(b)/sizeof(int)), 1));
+    printf("El indice de la bola de cristal es: %d\n", dosCristales(boo, 9));
     return 0;
 }
